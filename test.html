@@ -1,0 +1,144 @@
+<head>
+<meta property="og:type" content="article">
+<meta property="og:title" content="BG Music">
+<meta property="og:url" content="https://official-bgmusic.glitch.me/">
+<meta property="og:image" content="https://cdn.glitch.global/9453cd7b-4c76-47bb-8c11-b1c298b2b41c/big.png">
+<meta property="og:description" content="Official BG Music Site">
+<meta name="theme-color" content="#26729e">
+<link rel="icon" type="image/png" href="https://cdn.glitch.global/9453cd7b-4c76-47bb-8c11-b1c298b2b41c/big.png">
+</head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BG Music | Welcome</title>
+    <style>
+        .search-bar {
+            margin-bottom: 10px;
+            border-radius: 40px;
+            background-color: #1590d6;
+            height: 20px;
+            text-align: center;
+        }
+    </style>
+  <div>
+    <img src="https://cdn.glitch.global/9453cd7b-4c76-47bb-8c11-b1c298b2b41c/big.png" height="50px">
+  </div>
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            Projects List
+        </div>
+        <div class="content">
+          Here's a list of projects I've created/helped with!
+        </div>
+        <div class="content">
+            <button onclick="window.location.replace('/')">
+             Return
+          </button>
+          <hr style="border-color: black;">
+          <h1>
+            Projects
+          </h1>
+          <input type="text" id="searchInput" class="search-bar" onkeyup="filterProjects()" placeholder="Search for projects..">
+          <div class="grid" id="projects">
+            <!--Projects will be going here-->
+            <div style="display:none;" class="container-outline" id="template"><h1 id="name">Project Name</h1><h2 id="description">Project Description</h2><button id="site">Visit Site</button><button id="github">Github</button></div>
+          </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<script>
+    const projects = [
+      {
+        name: "Emoji API",
+        description: "Cool API for emojis",
+        site: "https://emojiapi.glitch.me",
+        github: "none",
+      },
+      {
+        name: "Modded Official",
+        description: "",
+        site: "https://modded-official.glitch.me",
+        github: "none",
+      },
+      {
+        name: "Minecraft Mods",
+        description: "View on CurseForge",
+        site: "https://www.curseforge.com/members/bg_musicmods/projects/",
+        github: "none",
+      },
+      {
+        name: "Extra Colors (AU)",
+        description: "Among Us Mod",
+        site: "none",
+        github: "https://github.com/MODDED-OFFICIAL/extracolors",
+      },
+      {
+        name: "Mod Builder (AU)",
+        description: "Among Us Mod Compiler",
+        site: "none",
+        github: "https://github.com/BG-Music/among-us-mod-builder",
+      },
+      
+      {
+        name: "BG Records",
+        description: "This is a record label.",
+        site: "https://bg-records.com",
+        github: "none",
+      },
+      {
+        name: "BG OS",
+        description: "An OS for the web",
+        site: "https://bg-os.glitch.me",
+        github: "none",
+      }
+    ];
+
+    function filterProjects() {
+        var input, filter, projectsContainer, projectItems, i, txtValue;
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
+        projectsContainer = document.getElementById('projects');
+        projectItems = projectsContainer.getElementsByClassName('container-outline');
+        for (i = 0; i < projectItems.length; i++) {
+            txtValue = projectItems[i].textContent || projectItems[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                projectItems[i].style.display = "";
+            } else {
+                projectItems[i].style.display = "none";
+            }
+        }
+    }
+
+    projects.forEach(projectData => {
+      var project = document.getElementById('template').cloneNode(true);
+      project.style.display = "flex"
+      project.querySelector('#name').textContent = projectData.name;
+      project.querySelector('#description').textContent = projectData.description;
+      
+      if (projectData.site === 'none') {
+        project.querySelector('#site').disabled = true
+      } else {
+        project.querySelector('#site').setAttribute("onclick", "window.open('" + projectData.site + "')")
+      }
+      
+      if (projectData.github === 'none') {
+        project.querySelector('#github').disabled = true
+      } else {
+        project.querySelector('#github').setAttribute("onclick", "window.open('" + projectData.github + "')")
+      }
+      
+      document.getElementById('projects').appendChild(project);
+    });
+
+    var templateElement = document.getElementById('template');
+    templateElement.parentNode.removeChild(templateElement);
+</script>

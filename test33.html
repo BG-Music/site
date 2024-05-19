@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css.css">
+    <script src="https://official-bgmusic.glitch.me/script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            cursor: default;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #response {
+            margin-top: 20px;
+            font-size: 24px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        button {
+            background-color: #26729e;
+            color: black;
+            border-radius: 5px;
+            height: 38px;
+            font-size: 20px;
+        }
+
+        button:hover {
+            background-color: #1590d6;
+            animation: button 2s ease 0s 1 normal both;
+        }
+
+        .importantbtn {
+            border-radius: 5px;
+            width: 200px;
+            height: 35px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid #26729e;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 500px;
+        }
+
+        #disableTryAgain {
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container" style="background-color: darkgray; border-radius:20px">
+    <div id="loading">
+        <img src="https://cdn.glitch.global/66d0743c-ad55-4872-a5e2-cb0b06ede457/ZKZg.gif?v=1713662344270" width="25%">
+        <h2>
+            Generating Reponses & Waiting for AI
+        </h2>
+    </div>
+    <div id="items">
+        <h1>Prediction 🔮</h1>
+        <input type="text" id="question" placeholder="Ask your question...">
+        <button id="findOutBtn">Predict</button>
+        <div id="response" class="hidden"></div>
+        <button id="backBtn" class="hidden">Back</button>
+        <div id="disableTryAgain">
+            <input type="checkbox" id="disableTryAgainCheckbox">
+            <label for="disableTryAgainCheckbox">Give me a Yes/No</label><span style="font-size:10px"> Removes "Later" reponses</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    const responses = ["Yes", "No", "Maybe", "Try again later", "Ask again later", "Outlook not so good", "Definitely", "Absolutely", "Without a doubt", "It is certain", "Good Bye", "💤", "✅", "❌"];
+
+    const questionInput = document.getElementById('question');
+    const findOutBtn = document.getElementById('findOutBtn');
+    const responseDiv = document.getElementById('response');
+    const backBtn = document.getElementById('backBtn');
+    let animationInterval;
+    document.getElementById('items').classList.add('hidden');
+
+    questionInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            findOutBtn.click();
+        }
+    });
+
+    findOutBtn.addEventListener('click', () => {
+        animateResponse(getResponse());
+        // Change the URL without refreshing
+        const newUrl = window.location.pathname + '?question=' + encodeURIComponent(questionInput.value);
+        history.pushState({}, '', newUrl);
+    });
+
+    // Function to check if "Try again later" responses should be disabled
+    function isTryAgainDisabled() {
+        return document.getElementById('disableTryAgainCheckbox').checked;
+    }
+
+    // Function to filter out "Try again later" responses if checkbox is checked
+    function getResponse() {
+        let availableResponses = [...responses];
+        if (isTryAgainDisabled()) {
+            availableResponses = availableResponses.filter(response => response !== "Try again later" && response !== "Ask again later"  && response !== "Maybe" && response !== "Good Bye" && response !== "💤");
+        }
+        const randomIndex = Math.floor(Math.random() * availableResponses.length);
+        return availableResponses[randomIndex];
+    }
+
+    // Event listener for checkbox change
+    document.getElementById('disableTryAgainCheckbox').addEventListener('change', () => {
+        if (responseDiv.classList.contains('hidden')) return; // Check if response is already displayed
+        responseDiv.classList.add('hidden'); // Hide response
+        animateResponse(getResponse()); // Display new response
+    });
+
+    function animateResponse(response) {
+        let i = 0;
+        animationInterval = setInterval(() => {
+            if (i === responses.length) {
+                clearInterval(animationInterval);
+                responseDiv.textContent = response;
+                responseDiv.classList.remove('hidden');
+                responseDiv.style.fontSize = "xx-large";
+                responseDiv.style.color = "black";
+                document.getElementById('items').classList.remove('hidden');
+                document.getElementById('loading').classList.add('hidden');
+            } else {
+                responseDiv.textContent = responses[i];
+                responseDiv.style.fontSize = "x-large";
+                responseDiv.style.color = "black";
+                responseDiv.style.backgroundColor = "gray";
+                responseDiv.style.borderRadius = "50px";
+                responseDiv.style.padding = "10px";
+                i++;
+            }
+        }, 50);
+    }
+animateResponse()
+    // Define getUrlParameter function
+    function getUrlParameter(name) {
+        name = name.replace(/[[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+        var results = regex.exec(window.location.href);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    // Define handleAutomaticQuestion function
+    function handleAutomaticQuestion() {
+        console.log("handleAutomaticQuestion function called"); // Step 1: Check if the function is called
+        const questionParam = getUrlParameter('question');
+        if (questionParam !== '') {
+            questionInput.value = questionParam;
+            console.log("Question parameter:", questionParam); // Step 2: Check the parameter value
+        }
+    }
+
+    // Check if questionInput and findOutBtn are defined
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOMContentLoaded event fired");
+        handleAutomaticQuestion(); // Call the function to handle automatic question
+    });
+</script>
+</body>
+</html>

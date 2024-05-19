@@ -1,0 +1,162 @@
+<head>
+<meta property="og:type" content="article">
+<meta property="og:title" content="BG Music">
+<meta property="og:url" content="https://official-bgmusic.glitch.me/">
+<meta property="og:image" content="https://cdn.glitch.global/9453cd7b-4c76-47bb-8c11-b1c298b2b41c/big.png">
+<meta property="og:description" content="Official BG Music Site">
+<script src="https://official-bgmusic.glitch.me/script.js"></script>
+<meta name="theme-color" content="#26729e">
+<link rel="icon" type="image/png" href="https://cdn.glitch.global/9453cd7b-4c76-47bb-8c11-b1c298b2b41c/big.png">
+</head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BG Music | Socials</title>
+    <style>
+        .search-bar {
+            margin-bottom: 10px;
+            border-radius: 40px;
+            background-color: #1590d6;
+            height: 20px;
+            text-align: center;
+        }
+    </style>
+  <div>
+    <img src="https://cdn.glitch.global/9453cd7b-4c76-47bb-8c11-b1c298b2b41c/big.png" height="50px" hidden>
+    <script src="/banner.js"></script>
+
+  </div>
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            Socials List
+        </div>
+        <div class="content">
+            My official socials are listed below!
+            <br>
+        </div>
+        <div class="content">
+            <button onclick="window.location.replace('/')">
+                Return
+            </button>
+            <hr style="border-color: black;">
+            <h1>
+                Socials <span id="total-items"></span>
+            </h1>
+            <input type="text" id="searchInput" class="search-bar" onkeyup="filterSocials()" placeholder="Search for socials">
+            <div class="grid" id="socials">
+                <!--Socials will be going here-->
+                <div style="display:none;" class="container-outline" id="template">
+                    <h1 id="username">User Name</h1>
+                    <h2 id="platform">Platform</h2>
+                    <button id="url">Visit Site</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+var totalsocials = 0
+
+    const socials = [
+      {
+        name: "N/A",
+        platform: {username: "BG Music", platform: "YouTube", url: "https://www.youtube.com/@BGMusic-Team/"},
+        extra: {isVerifed: "true", partnered: "true",}
+      },
+      {
+        name: "N/A",
+        platform: {username: "BG Gaming", platform: "YouTube", url: "https://www.youtube.com/@BG_MusicGaming/"},
+        extra: {isVerifed: "true", partnered: "N/A",}
+      },
+      {
+        name: "N/A",
+        platform: {username: "Discord Server", platform: "Discord", url: "https://discord.gg/DG6MuWgBud"},
+        extra: {isVerifed: "N/A", partnered: "N/A",}
+      },
+      {
+        name: "N/A",
+        platform: {username: "BG RECORDS", platform: "Spotify", url: "https://open.spotify.com/user/bossgamer0yt"},
+        extra: {isVerifed: "true", partnered: "N/A",}
+      },
+      {
+        name: "N/A",
+        platform: {username: "BG MusicTeam", platform: "Twitch", url: "https://www.twitch.tv/bg_musicteam"},
+        extra: {isVerifed: "true", partnered: "false",}
+      },
+      {
+        name: "N/A",
+        platform: {username: "BG Music", platform: "Github", url: "https://github.com/BG-Music"},
+        extra: {isVerifed: "true", partnered: "N/A", "test": "true",}
+      },
+      {
+        name: "N/A",
+        platform: {username: "BG Music", platform: "Steam", url: "https://steamcommunity.com/id/BG_Music"},
+        extra: {isVerifed: "N/A", partnered: "N/A",}
+      },
+      {
+        name: "N/A",
+        platform: {username: "BG Music", platform: "Instagram", url: "https://www.instagram.com/real.bg_music"},
+        extra: {isVerifed: "N/A", partnered: "N/A",}
+      },
+      {
+        name: "N/A",
+        platform: {username: "BG Music", platform: "Twitter", url: "https://www.twitter.com/BG_MUSICTV"},
+        extra: {isVerifed: "N/A", partnered: "N/A",}
+      },
+      {
+        name: "email",
+        platform: {username: "BG Music", platform: "EMail", url: "mailto:email.bgmusic@gmail.com"},
+        extra: {isVerifed: "N/A", partnered: "N/A",}
+      }
+    ];
+
+    function filterSocials() {
+        var input, filter, socialsContainer, socialItems, i, txtValue;
+        input = document.getElementById('searchInput');
+        filter = input.value.toUpperCase();
+        socialsContainer = document.getElementById('socials');
+        socialItems = socialsContainer.getElementsByClassName('container-outline');
+        for (i = 0; i < socialItems.length; i++) {
+            txtValue = socialItems[i].textContent || socialItems[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                socialItems[i].style.display = "";
+            } else {
+                socialItems[i].style.display = "none";
+            }
+        }
+    }
+
+    socials.forEach(socialData => {
+        newSocial()
+        var socialAcc = document.getElementById('template').cloneNode(true);
+        socialAcc.style.display = "flex"
+        socialAcc.querySelector('#username').textContent = socialData.platform.username;
+        socialAcc.querySelector('#platform').textContent = "On " +  socialData.platform.platform;
+      
+        if (socialData.platform.url === 'none') {
+            socialAcc.querySelector('#url').disabled = true
+        } else {
+            socialAcc.querySelector('#url').setAttribute("onclick", "window.open('" + socialData.platform.url + "')")
+            socialAcc.querySelector('#url').textContent = "View on " + socialData.platform.platform
+        }
+      
+        document.getElementById('socials').appendChild(socialAcc);
+    });
+
+    var templateElement = document.getElementById('template');
+    templateElement.parentNode.removeChild(templateElement);
+
+  function newSocial() {
+    totalsocials++
+    const socialCount = totalsocials
+    document.getElementById("total-items").innerText = "(" + socialCount + ")"
+  }
+</script>

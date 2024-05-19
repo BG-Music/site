@@ -1,0 +1,53 @@
+<script> let downloadURL = "https://cdn.glitch.global/66d0743c-ad55-4872-a5e2-cb0b06ede457/BG%20Texture%20Pack%20Preview%20Maker%20V2.zip"; let filename = "BG Texture Pack Preview Maker";</script>
+<script>
+// This script is only to be used in BG Official pages!!!
+
+console.log('Loading BG API Download Module')
+
+document.write(`
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/downloads/download-api.css">
+</head>
+
+<script src="/downloads/download-api.js"></script>
+
+
+<div class="container" id="container">
+  <h1 id="filename">[filename}</h1>
+  <p>Click the button below to download the file, <br> Ad free download for the most secure download!</p>
+  <button id="downloadBtn">Download {fileExtension}</button>
+  <button id="scanBtn" class="scan-btn">Scan File</button>
+  <div id="virusScan">
+    <iframe id="scan" width="80%" height="50%"></iframe>
+    <h4 id="fileurl">{fileurl}</h4>
+    <p>
+      Copy and paste this link in the virus scanner to get results, <br> around 1 - 4 detections may be an false detection
+    </p>
+  </div>
+</div>
+
+
+<script>
+document.getElementById('virusScan').hidden = true
+
+
+let fileExtension = downloadURL.split('.').pop();
+document.title = filename
+document.getElementById('filename').innerText = filename
+document.getElementById('downloadBtn').innerText = "Download " + fileExtension.toUpperCase();
+
+document.getElementById("downloadBtn").addEventListener("click", function() {
+  window.location.href = downloadURL;
+  document.getElementById("container").innerHTML = "Downloading...<br>Download System " + version + " | BG API";
+});
+
+document.getElementById("scanBtn").addEventListener("click", function() {
+  document.getElementById('virusScan').hidden = false
+  document.getElementById('fileurl').innerText = downloadURL
+  document.getElementById('scan').src = "https://www.virustotal.com/gui/home/url"
+});
+</script>
+`)
+</script>

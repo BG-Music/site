@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<channel>
+		<title>BG Records</title>
+		<link><![CDATA[https://bg-records.com]]></link>
+		<description>BG Records News</description>
+		<pubDate>Wed, 28 Jun 2023 20:46:28 +0000</pubDate>
+
+		<item>
+			<guid isPermaLink="false">8736246</guid>
+			<title>About YouTube Management Tools</title>
+			<link>https://bg-records.com/news/8736246/</link>
+			<dc:creator>BG Records</dc:creator>
+			<category>YouTube</category>
+			<description>1</description>
+			<pubDate>Fri, 08 Mar 2024 15:43:00 GMT</pubDate>
+		</item>
+		<item>
+			<guid isPermaLink="false">1204129833</guid>
+			<title>BG Records July changelog released!</title>
+			<link>https://bg-records.com/news/8255984/</link>
+			<dc:creator>BG Records</dc:creator>
+			<category>Changelog</category>
+			<description>Changelog</description>
+			<pubDate>Mon, 03 Jul 2023 13:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<guid isPermaLink="false">1204129832</guid>
+			<title>BG Records new inbox feeature!</title>
+			<link>https://bg-records.com/news/2349587/</link>
+			<dc:creator>BG Records</dc:creator>
+			<category>Feature</category>
+			<description>Inbox</description>
+			<pubDate>Mon, 03 Jul 2023 13:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<guid isPermaLink="false">1204129831</guid>
+			<title>Welcome to BG Records News</title>
+			<link>https://bg-records.com/contact/</link>
+			<dc:creator>BG Records</dc:creator>
+			<category>Site News</category>
+			<description>Please follow our page for artist and song updates!</description>
+			<pubDate>Wed, 28 Jun 2023 20:39:47 GMT</pubDate>
+		</item>
+	</channel>
+</rss>

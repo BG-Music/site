@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<head>
+<meta property="og:type" content="article">
+<meta property="og:title" content="BG Music">
+<script src="https://official-bgmusic.glitch.me/script.js"></script>
+<meta property="og:url" content="https://official-bgmusic.glitch.me/">
+<meta property="og:image" content="https://cdn.glitch.global/9453cd7b-4c76-47bb-8c11-b1c298b2b41c/big.png">
+<meta property="og:description" content="Official BG Music Site">
+<meta name="theme-color" content="#26729e">
+<link rel="icon" type="image/png" href="https://cdn.glitch.global/9453cd7b-4c76-47bb-8c11-b1c298b2b41c/big.png">
+</head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Birthday Countdown</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f2f2f2;
+  }
+
+  #countdown {
+    font-size: 24px;
+    margin-top: 50px;
+    background-color: rgba(192, 192, 192, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+  }
+</style>
+</head>
+<body>
+
+<h1>Birthday Countdown</h1>
+
+<div id="countdown"><img src="https://cdn.glitch.global/66d0743c-ad55-4872-a5e2-cb0b06ede457/ZKZg.gif?v=1713662344270" width="25%"></div>
+  <h5>
+    Powered By BG Timers
+  </h5>
+
+<script>
+  const birthday = new Date('2025-05-10T00:00:00');
+  const countdownTimer = setInterval(updateCountdown, 250);
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = birthday - now;
+  
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  
+    document.getElementById('countdown').innerHTML = `
+      <p>${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds</p>
+    `;
+  
+    if (distance < 0) {
+      clearInterval(countdownTimer);
+      document.getElementById('countdown').innerHTML = "It's My Birthday Today!!";
+    }
+  }
+
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  function changeBackgroundColorSmoothly() {
+    document.body.style.transition = "background-color 2s";
+    document.body.style.backgroundColor = getRandomColor();
+  }
+  //updateCountdown() // instant load
+  changeBackgroundColorSmoothly()
+  setInterval(changeBackgroundColorSmoothly, 700);
+</script>
+
+</body>
+</html>

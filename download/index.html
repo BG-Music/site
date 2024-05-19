@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/download-api.css">
+<title>UNKNOWN</title>
+</head>
+<body>
+
+<div class="container" id="container">
+  <h1 id="filename">No File Name</h1>
+  <p>Click the button below to download the file, <br> Ad free download for the most secure download!</p>
+  <p id="filepath"></p>
+  <button id="downloadBtn" disabled>Download File</button>
+</div>
+
+<script>
+let file = window.location.hash.substring(1);
+document.getElementById('filepath').innerText = "You are downloading " + file;
+
+let lastIndex = file.lastIndexOf('/');
+let filename = "";
+if (lastIndex !== -1) {
+    let textAfterLastSlash = file.substring(lastIndex + 1);
+    filename = textAfterLastSlash.replace('%20', ' ');
+}
+
+document.title = filename
+document.getElementById('filename').innerText = filename
+  
+
+document.getElementById("downloadBtn").addEventListener("click", function() {
+  window.location.href = file
+  document.getElementById("container").innerHTML = "Downloading...<br>Download System | BG API";
+});
+</script>
+
+</body>
+</html>
