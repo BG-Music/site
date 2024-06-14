@@ -2,10 +2,10 @@ let showBanner = 1
 
 if (showBanner === 1) {
     
-const bannerText = "This is an test, no button banner"
-const buttonText = "View"
+const bannerText = "This is an test, button banner"
+const buttonText = "this is an button!!"
 const buttonURL = "none"
-const backgroundColor = `orange`
+const backgroundColor = `#7d4dd6`
 const textColor = 'black'
 
 if (buttonURL === "none") {
