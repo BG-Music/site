@@ -1,5 +1,5 @@
 // Show de banner to make it display duh
-let showBanner = 1
+let showBanner = 0
 // Banner Config
 const bannerText = "This is an test, button banner"
 const buttonText = "this is an button!!"
