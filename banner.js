@@ -20,8 +20,12 @@ document.write(`
 document.write(`
 
 <style>
-.linkButton: hover {
+.linkButton:hover {
 filter: brightness(75%);
+}
+
+.linkButton:active {
+filter: brightness(65%);
 }
 
 .linkButton {
