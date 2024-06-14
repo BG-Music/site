@@ -1,13 +1,23 @@
+// Show de banner to make it display duh
 let showBanner = 1
-
-if (showBanner === 1) {
-    
+// Banner Config
 const bannerText = "This is an test, button banner"
 const buttonText = "this is an button!!"
+// Link Setings
 const buttonURL = "/projects"
+// Very Simple colour settings (Code now auto does the button colours :) cuz i got lazy owo)
 const backgroundColor = `#7d4dd6`
-const textColor = 'black'
+const textColor = 'black' // If the background color is too dark change to white :) kinda obvious but yk
 
+
+
+
+
+
+
+
+// Banner Execute
+if (showBanner === 1) {
 if (buttonURL === "none") {
 document.write(`
 <div style="background-color: ${backgroundColor}; width: 100%; height: 7%; position: sticky; box-shadow: 1px 4px 4px 4px ${backgroundColor}" >
@@ -18,7 +28,6 @@ document.write(`
 `)
 } else {
 document.write(`
-
 <style>
 .linkButton:hover {
 filter: brightness(75%);
