@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BG Labs</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            padding-bottom: 1px;
+        }
+        h1 {
+            margin-bottom: 10px;
+        }
+        .instructions {
+            margin-bottom: 20px;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .progress {
+            width: 100%;
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            display: none;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: #4CAF50;
+            text-align: left;
+            padding-left: 5px;
+            line-height: 20px;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Monitor Bench</h1>
+        <div class="instructions">
+            <p>Accurate monitor benchmark</p>
+            <p>Please fullscreen the window to start.</p>
+            <p>Once fullscreened, click the button below.</p>
+        </div>
+        <button class="button" onclick="start()">Start Benchmark</button>
+        <p style="font-family: 'Brush Script MT', cursive;">BG LABS</p>
+    </div>
+
+    <div id="app" style="display: none;">
+        <div class="container">
+            <div class="progress">
+                <div id="progressBar" class="progress-bar" style="width: 0;"></div>
+            </div>
+            <p id="loading">Checking details...</p>
+            <p id="resolution"></p>
+            <p id="refreshRate"></p>
+            <p id="colorDepth"></p>
+            <p id="hdrSupport"></p>
+            <div class="score">
+                <p id="scoreText">Score: <span id="score"></span></p>
+            </div>
+            <div class="rating">
+                <p><span id="rating"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let animationFrameId = null;
+
+        function calculateScore(width, height, highestFPS, colorDepth, hdrSupport) {
+            let score = (width * height / 1000) + (highestFPS * 10) + (colorDepth / 10);
+            if (hdrSupport) {
+                score += 50;
+            }
+            return Math.round(score);
+        }
+
+        function calculateRating(score) {
+            return Math.min(100, Math.round(score / 10));
+        }
+
+        function updateFPSCounter(callback) {
+            let highestFPS = 0;
+            let lastCalledTime = performance.now();
+            let frames = 0;
+
+            function countFrames() {
+                frames++;
+                const delta = performance.now() - lastCalledTime;
+                if (delta >= 4000) {
+                    const fps = Math.round((frames * 1000) / delta);
+                    highestFPS = Math.max(highestFPS, fps);
+                    callback(highestFPS);
+                    frames = 0;
+                    lastCalledTime = performance.now();
+                }
+                const elapsedTime = performance.now() - lastCalledTime;
+                const progress = Math.min((elapsedTime / 4000) * 100, 100);
+                document.getElementById('progressBar').style.width = `${progress}%`;
+
+                animationFrameId = requestAnimationFrame(countFrames);
+            }
+            countFrames();
+        }
+
+        function stopFPSCounter() {
+            cancelAnimationFrame(animationFrameId);
+        }
+
+        function checkHDRSupport() {
+            return window.matchMedia && window.matchMedia('(hdr)').matches;
+        }
+
+        function start() {
+            const loadingElement = document.getElementById('loading');
+            document.querySelector('.score').style.display = 'none';
+            loadingElement.textContent = 'Checking details...';
+
+            const app = document.getElementById('app');
+            app.style.display = 'block';
+
+            const width = window.screen.width;
+            const height = window.screen.height;
+
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = '0%';
+            document.querySelector('.progress').style.display = 'block';
+
+            updateFPSCounter(function(highestFPS) {
+                const score = calculateScore(width, height, highestFPS, 24, checkHDRSupport());
+                const rating = calculateRating(score);
+
+                const resolutionElement = document.getElementById('resolution');
+                const refreshRateElement = document.getElementById('refreshRate');
+                const colorDepthElement = document.getElementById('colorDepth');
+                const hdrSupportElement = document.getElementById('hdrSupport');
+                const scoreElement = document.getElementById('score');
+                const scoreTextElement = document.getElementById('scoreText');
+                const ratingElement = document.getElementById('rating');
+                loadingElement.style.display = 'none';
+                document.querySelector('.progress').style.display = 'none';
+
+                resolutionElement.textContent = `Resolution: ${width} x ${height}`;
+                refreshRateElement.textContent = `Refresh Rate (Highest FPS): ${highestFPS} Hz`;
+                colorDepthElement.textContent = `Color Depth: 24 bpp`;
+
+                hdrSupportElement.textContent = `HDR Support: ${checkHDRSupport() ? 'Yes' : 'No'}`;
+
+                document.querySelector('.score').style.display = 'block';
+                scoreElement.textContent = score;
+                scoreTextElement.style.display = 'block';
+                ratingElement.textContent = `This monitor is ${rating}% usable`;
+
+                stopFPSCounter();
+
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
