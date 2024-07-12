@@ -149,7 +149,7 @@
         function start() {
             const loadingElement = document.getElementById('loading');
             document.querySelector('.score').style.display = 'none';
-            loadingElement.textContent = 'Checking details...';
+            loadingElement.innerHTML = 'Running tests...<br>This may take a while!<';
 
             const app = document.getElementById('app');
             app.style.display = 'block';
