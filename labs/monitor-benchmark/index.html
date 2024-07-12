@@ -143,13 +143,13 @@
         }
 
         function checkHDRSupport() {
-            return window.matchMedia && window.matchMedia('(hdr)').matches;
+            return window.matchMedia && window.matchMedia("(dynamic-range: high)").matches;
         }
 
         function start() {
             const loadingElement = document.getElementById('loading');
             document.querySelector('.score').style.display = 'none';
-            loadingElement.innerHTML = 'Running tests...<br>This may take a while!<';
+            loadingElement.innerHTML = 'Running tests...<br>This may take a while!';
 
             const app = document.getElementById('app');
             app.style.display = 'block';
