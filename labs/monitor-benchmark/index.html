@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="=en">
 <head>
+    <meta charset="UTF-8">
     <meta property="og:type" content="article">
     <meta property="og:title" content="BG Labs">
     <meta property="og:url" content="https://bgmusic.xyz/">
     <meta property="og:image" content="https://bgmusic.xyz/bg-labs.png">
     <meta property="og:description" content="BG Labs | Monitor Benchmarking">
     <meta name="theme-color" content="#26729e">
-    <link rel="icon" type="image/png" href="https://bgmusic.xyz/bg-labs.png">
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BG Labs</title>
+    <link rel="icon" type="image/png" href="https://bgmusic.xyz/bg-labs.png">
     <style>
         body {
             display: flex;
@@ -96,6 +96,8 @@
             <div class="rating">
                 <p><span id="rating"></span></p>
             </div>
+            <p id="performanceComment" style="font-weight: bold; font-size: 1.1em;"></p>
+	    <p>Please notice that this is in beta and<br>things may be incorrect especially<br>due to the web based nature of<br>this benchmark.</p>
         </div>
     </div>
 
@@ -103,15 +105,16 @@
         let animationFrameId = null;
 
         function calculateScore(width, height, highestFPS, colorDepth, hdrSupport) {
-            let score = (width * height / 1000) + (highestFPS * 10) + (colorDepth / 10);
-            if (hdrSupport) {
-                score += 50;
-            }
-            return Math.round(score);
+            const totalPixels = width * height;
+            const resolutionScore = Math.min(100, (totalPixels / 8294400) * 100);
+            const refreshScore = Math.min(50, (highestFPS / 240) * 50);
+            const colorScore = Math.min(10, (colorDepth / 30) * 10);
+            const hdrScore = hdrSupport ? 20 : 0;
+            return Math.round(resolutionScore + refreshScore + colorScore + hdrScore);
         }
 
         function calculateRating(score) {
-            return Math.min(100, Math.round(score / 10));
+            return Math.min(100, Math.round((score / 180) * 100));
         }
 
         function updateFPSCounter(callback) {
@@ -132,7 +135,6 @@
                 const elapsedTime = performance.now() - lastCalledTime;
                 const progress = Math.min((elapsedTime / 4000) * 100, 100);
                 document.getElementById('progressBar').style.width = `${progress}%`;
-
                 animationFrameId = requestAnimationFrame(countFrames);
             }
             countFrames();
@@ -172,19 +174,37 @@
                 const scoreElement = document.getElementById('score');
                 const scoreTextElement = document.getElementById('scoreText');
                 const ratingElement = document.getElementById('rating');
+                const performanceComment = document.getElementById('performanceComment');
+
                 loadingElement.style.display = 'none';
                 document.querySelector('.progress').style.display = 'none';
 
                 resolutionElement.textContent = `Resolution: ${width} x ${height}`;
                 refreshRateElement.textContent = `Refresh Rate: ${highestFPS} Hz`;
                 colorDepthElement.textContent = `Color Depth: 24 bpp`;
-
                 hdrSupportElement.textContent = `HDR Detected: ${checkHDRSupport() ? 'Yes' : 'No'}`;
 
                 document.querySelector('.score').style.display = 'block';
                 scoreElement.textContent = score;
                 scoreTextElement.style.display = 'block';
                 ratingElement.textContent = `This monitor is ${rating}% usable`;
+
+                if (score < 40) {
+                    performanceComment.textContent = "❌ This monitor is likely unusable for modern tasks.";
+                    performanceComment.style.color = "#ff4d4d";
+                } else if (score < 80) {
+                    performanceComment.textContent = "🎮 Entry-level gaming or basic productivity.";
+                    performanceComment.style.color = "#ffb74d";
+                } else if (score < 120) {
+                    performanceComment.textContent = "💼 Solid for productivity, and good for most gaming.";
+                    performanceComment.style.color = "#fdd835";
+                } else if (score < 160) {
+                    performanceComment.textContent = "🧠 High-end monitor, excellent for gaming or content creation.";
+                    performanceComment.style.color = "#81c784";
+                } else {
+                    performanceComment.textContent = "🌟 This is an extreme high-end monitor!";
+                    performanceComment.style.color = "#00e676";
+                }
 
                 stopFPSCounter();
 
